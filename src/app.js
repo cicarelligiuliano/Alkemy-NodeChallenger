@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+require('./db.js');
 
 //Configuracion de Server
 app.name = 'API';
@@ -22,8 +23,15 @@ app.use((req, res, next) => {
 });
 
 //Error Catching
+app.use((err, req, res, next) => {
+    // eslint-disable-line no-unused-vars
+    const status = err.status || 500;
+    const message = err.message || err;
+    console.error(err);
+    res.status(status).send(message);
+});
 
 //Configuracion de Rutas
-app.use('/api', router);
+app.use('/', router);
 
 module.exports = app;

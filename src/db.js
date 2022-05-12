@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 const fs = require('fs');
@@ -49,7 +50,13 @@ let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { Character } = sequelize.models;
+const { Character, Movie, Genre, User } = sequelize.models;
+
+Character.belongsToMany(Movie, { through: 'Characters-Movies' });
+Movie.belongsToMany(Character, { through: 'Characters-Movies' });
+
+Genre.belongsToMany(Movie, { through: 'Genres-Movies' });
+Movie.belongsToMany(Genre, { through: 'Genres-Movies' });
 
 module.exports = {
     ...sequelize.models,

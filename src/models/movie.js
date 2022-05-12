@@ -1,21 +1,15 @@
 const { DataTypes, Sequelize } = require('sequelize');
 
-// image
-// name
-// age
-// heigth
-// history
-
 module.exports = (sequelize) => {
     sequelize.define(
-        'character',
+        'movie',
         {
             id: {
                 type: Sequelize.UUID,
                 defaultValue: Sequelize.UUIDV4,
                 primaryKey: true,
             },
-            name: {
+            title: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true,
@@ -24,16 +18,12 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING(1000),
                 allowNull: false,
             },
-            age: {
-                type: DataTypes.INTEGER,
+            date: {
+                type: DataTypes.DATE,
                 allowNull: false,
             },
-            weight: {
+            calification: {
                 type: DataTypes.FLOAT,
-                allowNull: false,
-            },
-            history: {
-                type: DataTypes.STRING(5000),
                 allowNull: false,
             },
         },

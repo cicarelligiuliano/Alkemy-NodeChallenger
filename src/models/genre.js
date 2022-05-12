@@ -1,14 +1,8 @@
 const { DataTypes, Sequelize } = require('sequelize');
 
-// image
-// name
-// age
-// heigth
-// history
-
 module.exports = (sequelize) => {
     sequelize.define(
-        'character',
+        'genre',
         {
             id: {
                 type: Sequelize.UUID,
@@ -22,18 +16,6 @@ module.exports = (sequelize) => {
             },
             image: {
                 type: DataTypes.STRING(1000),
-                allowNull: false,
-            },
-            age: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            weight: {
-                type: DataTypes.FLOAT,
-                allowNull: false,
-            },
-            history: {
-                type: DataTypes.STRING(5000),
                 allowNull: false,
             },
         },
