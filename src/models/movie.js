@@ -21,6 +21,10 @@ module.exports = (sequelize) => {
             date: {
                 type: DataTypes.DATE,
                 allowNull: false,
+                get() {
+                    const date = this.getDataValue('date');
+                    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()+1}`;
+                },
             },
             calification: {
                 type: DataTypes.FLOAT,

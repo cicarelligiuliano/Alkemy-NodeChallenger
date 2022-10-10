@@ -2,6 +2,7 @@ const bcryptjs = require('bcryptjs');
 const { User } = require('../db');
 const { response, request } = require('express');
 const { generarJWT } = require('../helpers/generar-jwt');
+const nodemailer = require('nodemailer');
 
 const login = async (req = request, res = response) => {
     const { email, password } = req.body;
@@ -33,6 +34,27 @@ const register = async (req = request, res = response) => {
         const hashedPassword = bcryptjs.hashSync(password, salt);
 
         const newUser = await User.create({ email: email.toLowerCase(), password: hashedPassword });
+
+        if (newUser) {
+            let testAccount = await nodemailer.createTestAccount();
+
+            let transporter = nodemailer.createTransport({
+                host: 'smtp-mail.outlook.com',
+                port: 587,
+                secure: false,
+                auth: {
+                    user: 'cicarelligiulianoprueba@outlook.com.ar',
+                    pass: 'prueba123456',
+                },
+            });
+            let info = await transporter.sendMail({
+                from: '"Alkemy Backend" <cicarelligiulianoprueba@outlook.com.ar>',
+                to: email,
+                subject: 'Welcome to Backend Challenger Alkemy',
+                text: 'Hola, bienvenido a la prueba de backend para Alkemy',
+                html: '<b>Hola, bienvenido a la prueba de backend para Alkemy</b>',
+            });
+        }
 
         res.json({ ok: true, msg: 'User created' });
     } catch (error) {
